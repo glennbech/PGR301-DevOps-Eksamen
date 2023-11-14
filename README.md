@@ -1,3 +1,5 @@
+[![SAM Deploy](https://github.com/HauVu94/PGR301-DevOps-Eksamen/actions/workflows/deply.yml/badge.svg)](https://github.com/HauVu94/PGR301-DevOps-Eksamen/actions/workflows/deply.yml)
+
 # Eksamens oppgaver sjekkliste
 
 ## Oppgave 1 Kjell's Python kode - 20 Poeng
