@@ -18,6 +18,4 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-west-1
       - run: aws s3 ls
-      - run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --stack-name PGR301-2007  --s3-bucket lambda-bucket-grb  --capabilities CAPABILITY_IAM --region eu-west-1
-
 # Additional steps for testing API using Kjell's images...
