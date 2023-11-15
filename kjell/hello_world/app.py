@@ -16,7 +16,7 @@ s3_client = boto3.client('s3', region_name='eu-west-1')
 rekognition_client = boto3.client('rekognition', region_name='eu-west-1')
 
 # Oppgave 1A
-BUCKET_NAME = os.environ.get("BUCKET_NAME") or "2007" # Kandidatnr for eksamen
+BUCKET_NAME = os.environ.get("kandidatnr-2007") or "2007" # Kandidatnr for eksamen
 
 def lambda_handler(event, context):
 
