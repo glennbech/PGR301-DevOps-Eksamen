@@ -11,7 +11,7 @@ Globals:
     Timeout: 60
     MemorySize: 512
     
-Parameter:
+Parameters:
   S3Bucketname: 
     Type: String
     Default: "kandidatnr-2007"
@@ -37,9 +37,9 @@ Resources:
           Properties:
             Path: /hello
             Method: get
-      Environment:
-        Variables:
-          S3Bucketname: !Ref S3Bucketname
+      # Environment:
+      #   Variables:
+      #     S3Bucketname: !Ref S3Bucketname
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
