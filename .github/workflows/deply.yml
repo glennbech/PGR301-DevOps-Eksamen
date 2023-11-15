@@ -17,7 +17,6 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-west-1
-      - run: sam build --use-container
-      - run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --stack-name 2007 --s3-bucket lambda-deployments-gb --capabilities CAPABILITY_IAM --region eu-west-1
+      - run: aws s3 ls
 
 # Additional steps for testing API using Kjell's images...
