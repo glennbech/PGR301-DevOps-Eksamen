@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - '*'
       
 defaults:
   run:
@@ -25,3 +26,14 @@ jobs:
       - run: sam build --use-container
       - run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --stack-name sam-kandidat --s3-bucket pgr301-sam-bucket --capabilities CAPABILITY_IAM --region eu-west-1
 # Additional steps for testing API using Kjell's images...
+
+  build-only:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      
+    - name: Build SAM application
+      if: github.event_name == 'push' && github.ref != 'refs/heads/main'
+      run: sam build
+      
