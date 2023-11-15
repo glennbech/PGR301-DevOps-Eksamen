@@ -11,7 +11,7 @@ defaults:
     working-directory: ./kjell
 
 jobs:
-  build-deploy:
+  build-deploy-main:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -27,7 +27,9 @@ jobs:
       - run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --stack-name sam-kandidat --s3-bucket pgr301-sam-bucket --capabilities CAPABILITY_IAM --region eu-west-1
 # Additional steps for testing API using Kjell's images...
 
-  build-only:
+name: Second Deploy
+
+  build-other-branches:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout repository
