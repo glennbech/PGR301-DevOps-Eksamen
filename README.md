@@ -6,7 +6,8 @@
 # Eksamens oppgaver sjekkliste
 
 ## Oppgave 1 Kjell's Python kode - 20 Poeng
-- [ ] Oppgave A - SAM & GitHub actions workflow
+- [x] Oppgave A - SAM & GitHub actions workflow
+        - [ ] husk å skrive forklar hva sensor må gjøre for å bygge GitHub Actions workflow til å gjøre i sin egen GitHub
 - [ ] Oppgave B - Docker container
 
 ## Oppgave 2 Overgang fra Java og Spring boot - 15 poeng
