@@ -1,5 +1,8 @@
 [![SAM Deploy](https://github.com/HauVu94/PGR301-DevOps-Eksamen/actions/workflows/deply.yml/badge.svg)](https://github.com/HauVu94/PGR301-DevOps-Eksamen/actions/workflows/deply.yml)
 
+
+## Her har jeg laget en check liste for meg selv. Besvarelse for oppgaven kommer etter checklisten
+
 # Eksamens oppgaver sjekkliste
 
 ## Oppgave 1 Kjell's Python kode - 20 Poeng
@@ -20,9 +23,18 @@
 
 ## Oppgave 5 - Drøfteoppgaver - 20 poeng
 - [ ] Oppgave A - Kontinuelig Integrering
+
 - [ ] Oppgave B - Sammenligning av Scrum/Smidig og DevOps fra et Utviklers Perspektiv 
+    - [ ] Oppgave 1 - Scrum/Smidig Metodikk
+    - [ ] Oppgave 2 - DevOps Metodikk
+    - [ ] Oppgave 3 - Sammenligning og Kontrast
+  
 - [ ] Oppgave C - Det Andre Prinsippet Feedback 
 
+
+# Besvarelse oppgave 5
+
+Oppgave A
 
 
 
