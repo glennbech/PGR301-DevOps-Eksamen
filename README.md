@@ -24,10 +24,10 @@
 ## Oppgave 5 - Drøfteoppgaver - 20 poeng
 - [x] Oppgave A - Kontinuelig Integrering
 
-- [ ] Oppgave B - Sammenligning av Scrum/Smidig og DevOps fra et Utviklers Perspektiv 
-    - [ ] Oppgave 1 - Scrum/Smidig Metodikk
-    - [ ] Oppgave 2 - DevOps Metodikk
-    - [ ] Oppgave 3 - Sammenligning og Kontrast
+- [x] Oppgave B - Sammenligning av Scrum/Smidig og DevOps fra et Utviklers Perspektiv 
+    - [x] Oppgave 1 - Scrum/Smidig Metodikk
+    - [x] Oppgave 2 - DevOps Metodikk
+    - [x] Oppgave 3 - Sammenligning og Kontrast
   
 - [ ] Oppgave C - Det Andre Prinsippet Feedback 
 
@@ -109,8 +109,38 @@ samt potensielle sikkerhetsrisikoer som kan følge med rask leveranse.
 
 
  
- 3. Det Andre Prinsippet - Feedback
+ 3. Sammenligning og Kontrast
  
+Scrum og DevOps deler flere likheter. Innenfor Scrum implementeres automatiserte tester og kontinuerlig integrasjon for å oppdage feil tidlig, 
+noe som resulterer i forbedret kodekvalitet og raskere tilbakemeldinger. Scrum vektlegger samarbeid og effektiv kommunikasjon, 
+noe som bidrar til en bedre forståelse av kundebehov og kan føre til et forbedret sluttprodukt.
+
+DevOps, på den annen side, fokuserer på automatisering av prosesser og kontinuerlig leveranse for å redusere manuelle inngrep, 
+minimere feil og sikre konsistente utrullinger. Den gir også omfattende overvåking og logging, 
+som muliggjør rask identifisering og løsning av potensielle problemer. 
+Sammen utgjør disse metodologiene et kraftig verktøysett for å skape effektive og pålitelige utviklings- og driftsprosesser.
+
+Estimering av arbeidsmengde kan være utfordrende innenfor Scrum, ofte på grunn av teamets erfaringsnivå med Scrum-prinsippene. 
+Implementeringen av DevOps-kultur krever endringer, spesielt for de som ikke har tidligere erfaring med denne praksisen, 
+noe som kan utfordre bedrifter med etablerte rutiner.
+
+Når det gjelder leveranse, gir Scrum mulighet for hyppige og planlagte utgivelser gjennom sprintene. 
+Dette gir rask tilbakemelding og en grad av fleksibilitet for å tilpasse seg endringer i krav, slik at ny funksjonalitet jevnlig kan leveres.
+Utfordringer kan oppstå når hastigheten til utviklingsteamet varierer, og nøye planlegging av sprinter er avgjørende for å oppnå jevn leveranse.
+
+DevOps, derimot, introduserer automatiserte bygge- og distribusjonsprosesser som muliggjør kontinuerlig leveranse. 
+Dette reduserer tiden fra fullføring av kode til produksjonssetting. Likevel kan utfordringer oppstå, spesielt for store bedrifter, 
+der implementeringen av DevOps kan virke kompleks og kreve betydelig tilpasning.
+ 
+ 
+Hvis prosjektet har tydelig definerte krav, korte iterasjoner, og teamet er komfortabelt med å arbeide i smidige prinsipper, 
+samtidig som kunden er engasjert gjennom hele utviklingsprosessen, ville jeg foretrukket å anvende Scrum eller andre smidige metoder.
+
+Dersom kontinuerlig leveranse og hyppige kritiske utgivelser er avgjørende for prosjektet, 
+og kunden ønsker optimalisert infrastruktur som kode i tillegg til automatisering av hele leveranseprosessen, 
+ville jeg sannsynligvis velge DevOps. Denne tilnærmingen gir muligheten til å oppnå jevn leveranse og rask respons på endringer, 
+samtidig som den legger vekt på optimalisering av infrastrukturen gjennom kodestyring.
+
  
 Oppgave C
 
