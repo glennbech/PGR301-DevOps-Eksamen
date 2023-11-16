@@ -153,4 +153,15 @@ samtidig som den legger vekt på optimalisering av infrastrukturen gjennom kodes
  
 ## Oppgave C
 
+Når det gjelder tilbakemeldinger, eksisterer det flere tilnærminger for å samle inn verdifulle tilbakemeldinger gjennom ulike tester. 
+For eksempel kan brukertesting være en effektiv metode, der et ferdig produkt blir gitt til brukerne for å evaluere den nye funksjonaliteten. 
+Ved å samle en gruppe representativ brukere og observere deres brukeropplevelse, kan vi analysere interaksjonene deres, identifisere feil og innhente direkte tilbakemelding om hva som fungerer bra og hva som kan forbedres.
 
+En annen tilnærming er A/B-testing, hvor en gruppe bruker den nye funksjonaliteten mens den andre beholder den eksisterende. 
+Dette gir oss muligheten til å sammenligne resultater mellom gruppene og evaluere effekten av den nye funksjonaliteten.
+
+Når vi mottar tilbakemeldinger, kan vi sikre at den nye funksjonaliteten er i tråd med brukernes forventninger og behov. 
+Direkte tilbakemeldinger fra brukerne bekrefter at de har prøvd ut funksjonaliteten. Gjennom tilbakemeldinger kan utviklingsteamet identifisere svakheter og områder som krever forbedring.
+
+Kontinuerlig tilbakemelding sikrer at programvareutviklingen forblir responsiv, tilpasningsdyktig og i stand til å imøtekomme endrede brukerbehov over tid. 
+Å lytte til brukernes tilbakemeldinger og integrere dem gjennom hele utviklingsprosessen er nøkkelen for å levere høykvalitetsprodukter som virkelig møter brukernes behov.
