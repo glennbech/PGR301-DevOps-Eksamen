@@ -34,8 +34,20 @@
 
 # Besvarelse oppgave 1
 
-- [ ] husk å skrive forklar hva sensor må gjøre for å bygge GitHub Actions workflow til å gjøre i sin egen GitHub
+Først må du/sensor Forke repositoryen.
+Hvis du går inn på din terminal og skriver inn: git clone https://github.com/<DIN GITHUB BRUKER>/PGR301-DevOps-Eksamen.git
+Etter at du har fått forket er det viktig å lage Github Secrets i repositiriet.
+    1. gå inn på settings
+    2. under Security finner du Secrets and variables, gå til Actions
+    3. Her må du lage 2 secrets, den ene kaller du for AWS_ACESS_KEY_ID og den andre AWS_SECRET_ACESS_KEY. Du kan finne disse kodene inne på AWS og IAM, da vil du knytte AWS kontoen din til Github
+    4. Du trenger å gjøre en endring i '.github/workflows/deply.yml' for å kunne pushe opp til github.
+    5. i terminal i rotmappen kan du skrive "git add .", deretter 'git commit -m "skriv en commit melding" ', deretter git push. 
+    6. Github Actions vil da kjøre, hvis alt funker vil den kjøre grønt :)
+    
+    
 
+    
+    
 
 # Besvarelse oppgave 5
 
