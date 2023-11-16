@@ -52,6 +52,29 @@ Etter at du har fått forket er det viktig å lage Github Secrets i repositiriet
 # Besvarelse oppgave 5
 
 Oppgave A
+Kontinuerlig integrasjon (CI) kan kort forklares som følger: 
+Når vi er et team på for eksempel fem personer og alle jobber i samme repository, men har hver våre egne branches, 
+vil koden automatisk integreres i repositoriet når vi pusher endringer, og dette kan skje flere ganger om dagen. 
+Når vi for eksempel pusher til Github, blir koden umiddelbart sjekket for godkjenning eller feil. Hvis det oppdages feil, kan vi umiddelbart rette dem. 
+CI kjører automatisk bygg og tester hver gang det er endringer i koden.
+Ved å oppdage og løse problemer tidlig reduserer CI tiden det tar å utvikle og implementere ny funksjonalitet. 
+Dette muliggjør raskere levering av programvare. Når vi jobber med CI, kan hver enkelt utvikler fokusere på sitt eget arbeid uten å bekymre seg for andres, 
+da CI sørger for at alt skal gå knirkefritt.
 
+
+Hvordan vi praktisk implementerer CI i GitHub:
+Når man jobber i et team med flere medlemmer, er det mulig å lage en YAML-fil der man definerer trinnene for en CI-prosess. 
+Denne filen gir deg muligheten til å spesifisere hvordan CI-prosessen skal utføres, inkludert testing, bygging og eventuelle andre nødvendige steg.
+Ved å benytte GitHub Actions, kan vi automatisere CI-prosessen. Workflowen trigges av hendelser som for eksempel en push til repositoriet. 
+I tillegg kan vi beskytte hovedgrenen vår ved å kreve at CI-prosessen må være vellykket før integrasjon tillates. 
+Alternativt kan man implementere en to-stegs godkjenningsprosess der en annen person må gi sin godkjenning før integrasjon tillates.
+
+
+Oppgave B 
+ 1.
+ 2.
+ 3.
+ 
+Oppgave C
 
 
