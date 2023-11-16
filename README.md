@@ -22,7 +22,7 @@
 - [ ] Oppgave B - CloudWatch Alarm og Terraform moduler
 
 ## Oppgave 5 - Drøfteoppgaver - 20 poeng
-- [ ] Oppgave A - Kontinuelig Integrering
+- [x] Oppgave A - Kontinuelig Integrering
 
 - [ ] Oppgave B - Sammenligning av Scrum/Smidig og DevOps fra et Utviklers Perspektiv 
     - [ ] Oppgave 1 - Scrum/Smidig Metodikk
@@ -71,9 +71,46 @@ Alternativt kan man implementere en to-stegs godkjenningsprosess der en annen pe
 
 
 Oppgave B 
- 1.
- 2.
- 3.
+
+ 1. Scrum Metodikk
+    
+Scrum representerer en smidig rammeverk for programvareutvikling med hovedfokus på rask produktleveranse. 
+Typisk inneholder et Scrum-team ulike roller, som en produkteier, en scrum master, og utviklingsteamet.
+
+I starten av hver iterasjon, kjent som en sprint, som kan variere fra 1 til 4 uker, planlegger teamet arbeidet basert på oppgaver fra produktbackloggen. 
+Før hver sprint har teamet et planleggingsmøte der de velger oppgaver og setter prioriteringer.
+
+Underveis i sprinten, har teamet daglige scrum-møter for å oppdatere hverandre om fremdriften, diskutere eventuelle utfordringer og be om hjelp ved behov. 
+Etter hver sprint avholdes en avslutning for å evaluere oppnådd funksjonalitet og gi tilbakemeldinger for prosessforbedring.
+
+Scrum tilbyr smidighet ved å tilpasse seg endringer i krav og prioriteringer raskt. Prosjekter praktiserer også kontinuerlig integrasjon (CI), 
+hvor arbeidet som er ferdigstilt i sprinten, blir integrert og publisert, for eksempel på GitHub.
+
+Fordelene med Scrum inkluderer daglige standup-møter for effektiv kommunikasjon og samarbeid. 
+Utfordringer kan oppstå når teamet ikke er vant til Scrum, spesielt hvis de kommer fra en vannfall-modell. 
+Estimering av arbeidsmengde og mangel på kommunikasjon kan også være utfordrende elementer å håndtere.
+
+ 
+ 2. DevOps Metodikk
+ 
+DevOps er en metodikk som forener prinsippene for utvikling (Dev) og drift (Ops). 
+På et grunnleggende nivå handler DevOps om å skape en kultur preget av samarbeid, der kommunikasjonen flyter fritt og alle deler et felles ansvar for utviklingsprosessen.
+
+I DevOps implementerer man automatiserte bygg- og testprosesser for å redusere feilmarginen. 
+Kontinuerlig leveranse muliggjør endringer i produksjon når som helst, og med hver ny leveranse følger kontinuerlig overvåking, logging og feilsøking.
+
+Kvaliteten på DevOps-prosessen er nøye ivaretatt gjennom automatiserte tester og kontinuerlig integrasjon, 
+som sikrer tidlig oppdagelse av feil. Den automatiserte testingen og kontinuerlige leveransen øker hastigheten på programvareleveranser, 
+slik at tilpasninger til endringer kan gjennomføres raskt.
+
+DevOps styrker inkluderer raske leveranser, forbedret samarbeidsflyt, muligheten for automatisering og kontinuerlig tilbakemelding. 
+Likevel, utfordringer kan oppstå, inkludert motstand fra team som ikke er vant til DevOps-metodikken, 
+samt potensielle sikkerhetsrisikoer som kan følge med rask leveranse.
+
+
+ 
+ 3. Det Andre Prinsippet - Feedback
+ 
  
 Oppgave C
 
