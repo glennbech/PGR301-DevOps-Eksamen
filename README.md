@@ -35,11 +35,15 @@
 # Besvarelse oppgave 1
 
 Først må du/sensor Forke repositoryen.
-Hvis du går inn på din terminal og skriver inn: git clone https://github.com/<DIN GITHUB BRUKER>/PGR301-DevOps-Eksamen.git
+
+Hvis du går inn på din terminal og skriver inn: git clone https://github.com/<DIN-GITHUB-BRUKER>/PGR301-DevOps-Eksamen.git
+
 Etter at du har fått forket er det viktig å lage Github Secrets i repositiriet.
+
     1. gå inn på settings
     2. under Security finner du Secrets and variables, gå til Actions
-    3. Her må du lage 2 secrets, den ene kaller du for AWS_ACESS_KEY_ID og den andre AWS_SECRET_ACESS_KEY. Du kan finne disse kodene inne på AWS og IAM, da vil du knytte AWS kontoen din til Github
+    3. Her må du lage 2 secrets, den ene kaller du for AWS_ACESS_KEY_ID og den andre AWS_SECRET_ACESS_KEY.
+        Du kan finne disse kodene inne på AWS og IAM, da vil du knytte AWS kontoen din til Github
     4. Du trenger å gjøre en endring i '.github/workflows/deply.yml' for å kunne pushe opp til github.
     5. i terminal i rotmappen kan du skrive "git add .", deretter 'git commit -m "skriv en commit melding" ', deretter git push. 
     6. Github Actions vil da kjøre, hvis alt funker vil den kjøre grønt :)
@@ -51,18 +55,23 @@ Etter at du har fått forket er det viktig å lage Github Secrets i repositiriet
 
 # Besvarelse oppgave 5
 
-Oppgave A
+## Oppgave A
+
 Kontinuerlig integrasjon (CI) kan kort forklares som følger: 
+
 Når vi er et team på for eksempel fem personer og alle jobber i samme repository, men har hver våre egne branches, 
 vil koden automatisk integreres i repositoriet når vi pusher endringer, og dette kan skje flere ganger om dagen. 
+
 Når vi for eksempel pusher til Github, blir koden umiddelbart sjekket for godkjenning eller feil. Hvis det oppdages feil, kan vi umiddelbart rette dem. 
 CI kjører automatisk bygg og tester hver gang det er endringer i koden.
+
 Ved å oppdage og løse problemer tidlig reduserer CI tiden det tar å utvikle og implementere ny funksjonalitet. 
 Dette muliggjør raskere levering av programvare. Når vi jobber med CI, kan hver enkelt utvikler fokusere på sitt eget arbeid uten å bekymre seg for andres, 
 da CI sørger for at alt skal gå knirkefritt.
 
 
 Hvordan vi praktisk implementerer CI i GitHub:
+
 Når man jobber i et team med flere medlemmer, er det mulig å lage en YAML-fil der man definerer trinnene for en CI-prosess. 
 Denne filen gir deg muligheten til å spesifisere hvordan CI-prosessen skal utføres, inkludert testing, bygging og eventuelle andre nødvendige steg.
 Ved å benytte GitHub Actions, kan vi automatisere CI-prosessen. Workflowen trigges av hendelser som for eksempel en push til repositoriet. 
@@ -70,9 +79,9 @@ I tillegg kan vi beskytte hovedgrenen vår ved å kreve at CI-prosessen må vær
 Alternativt kan man implementere en to-stegs godkjenningsprosess der en annen person må gi sin godkjenning før integrasjon tillates.
 
 
-Oppgave B 
+## Oppgave B 
 
- 1. Scrum Metodikk
+### 1. Scrum Metodikk
     
 Scrum representerer en smidig rammeverk for programvareutvikling med hovedfokus på rask produktleveranse. 
 Typisk inneholder et Scrum-team ulike roller, som en produkteier, en scrum master, og utviklingsteamet.
@@ -91,7 +100,7 @@ Utfordringer kan oppstå når teamet ikke er vant til Scrum, spesielt hvis de ko
 Estimering av arbeidsmengde og mangel på kommunikasjon kan også være utfordrende elementer å håndtere.
 
  
- 2. DevOps Metodikk
+### 2. DevOps Metodikk
  
 DevOps er en metodikk som forener prinsippene for utvikling (Dev) og drift (Ops). 
 På et grunnleggende nivå handler DevOps om å skape en kultur preget av samarbeid, der kommunikasjonen flyter fritt og alle deler et felles ansvar for utviklingsprosessen.
@@ -109,7 +118,7 @@ samt potensielle sikkerhetsrisikoer som kan følge med rask leveranse.
 
 
  
- 3. Sammenligning og Kontrast
+### 3. Sammenligning og Kontrast
  
 Scrum og DevOps deler flere likheter. Innenfor Scrum implementeres automatiserte tester og kontinuerlig integrasjon for å oppdage feil tidlig, 
 noe som resulterer i forbedret kodekvalitet og raskere tilbakemeldinger. Scrum vektlegger samarbeid og effektiv kommunikasjon, 
@@ -142,6 +151,6 @@ ville jeg sannsynligvis velge DevOps. Denne tilnærmingen gir muligheten til å 
 samtidig som den legger vekt på optimalisering av infrastrukturen gjennom kodestyring.
 
  
-Oppgave C
+## Oppgave C
 
 
