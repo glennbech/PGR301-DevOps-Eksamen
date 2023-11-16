@@ -9,7 +9,6 @@ COPY --from=builder /app/target/*.jar /app/application.jar
 ENTRYPOINT ["java","-jar","/app/application.jar"]
 
 
-
 # FROM python:3.9-slim
 # WORKDIR /app
 # COPY . /app
