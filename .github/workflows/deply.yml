@@ -2,9 +2,6 @@ name: SAM Deploy
 
 on:
   push:
-    branches:
-      - main
-      - '*'
       
 defaults:
   run:
@@ -24,21 +21,6 @@ jobs:
           aws-region: eu-west-1
       - run: aws s3 ls
       - run: sam build --use-container
+      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
       - run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --stack-name sam-kandidat --s3-bucket pgr301-sam-bucket --capabilities CAPABILITY_IAM --region eu-west-1
 # Additional steps for testing API using Kjell's images...
-      # - name: Build Docker images
-      #   run: docker build -t kjellpy /PGR301-DevOps-Eksamen/kjell/hello_world/app
-
-      # - name: Docker container
-      #   run: docker run -e AWS_ACCESS_KEY_ID="${{ secrets.AWS_ACCESS_KEY_ID }}" -e AWS_SECRET_ACCESS_KEY="${{ secrets.AWS_SECRET_ACCESS_KEY }}" -e S3Bucketname=kjellsimagebucket kjellpy
-
-  build-only:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-      
-    - name: Build SAM application
-      if: github.event_name == 'push' && github.ref != 'refs/heads/main'
-      run: sam build
-      
