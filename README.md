@@ -7,7 +7,7 @@
 
 ## Oppgave 1 Kjell's Python kode - 20 Poeng
 - [x] Oppgave A - SAM & GitHub actions workflow
-- [ ] Oppgave B - Docker container
+- [x] Oppgave B - Docker container
 
 ## Oppgave 2 Overgang fra Java og Spring boot - 15 poeng
 - [ ] Oppgave A - Dockerfile
@@ -29,7 +29,7 @@
     - [x] Oppgave 2 - DevOps Metodikk
     - [x] Oppgave 3 - Sammenligning og Kontrast
   
-- [ ] Oppgave C - Det Andre Prinsippet Feedback 
+- [x] Oppgave C - Det Andre Prinsippet Feedback 
 
 
 # Besvarelse oppgave 1
