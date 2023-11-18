@@ -1,4 +1,5 @@
-[![SAM Deploy](https://github.com/HauVu94/PGR301-DevOps-Eksamen/actions/workflows/deply.yml/badge.svg)](https://github.com/HauVu94/PGR301-DevOps-Eksamen/actions/workflows/deply.yml)
+[![SAM Deploy](https://github.com/HauVu94/PGR301-DevOps-Eksamen/actions/workflows/task1.yml/badge.svg)](https://github.com/HauVu94/PGR301-DevOps-Eksamen/actions/workflows/task1.yml)
+
 [![Docker image](https://github.com/HauVu94/PGR301-DevOps-Eksamen/actions/workflows/task2.yml/badge.svg)](https://github.com/HauVu94/PGR301-DevOps-Eksamen/actions/workflows/task2.yml)
 
 
