@@ -10,8 +10,8 @@
 - [x] Oppgave B - Docker container
 
 ## Oppgave 2 Overgang fra Java og Spring boot - 15 poeng
-- [ ] Oppgave A - Dockerfile
-- [ ] Oppgave B - GitHub Action workflow for container image og ECR
+- [x] Oppgave A - Dockerfile
+- [x] Oppgave B - GitHub Action workflow for container image og ECR
 
 ## Oppgave 3 - Terraform, AWS Apprunner og Infrastruktur som kode - 15 poeng
 - [ ] Oppgave A - Kodeendringer og forbedringer
