@@ -51,7 +51,15 @@ Etter at du har fått forket er det viktig å lage Github Secrets i repositiriet
     6. Github Actions vil da kjøre, hvis alt funker vil den kjøre grønt :)
     
     
+# Besvarelse oppgave 2
+    Oppgave A Dockerfile laget.
+    Oppgave B Sjekket ECR, 200 OK
 
+# Besvarelse oppgave 3
+    Oppgave A kodeendringer og forbedringer gjort.
+    Oppgave B Terraform kjører grønt. 
+
+# Besvarelse oppgave 4
     
     
 
