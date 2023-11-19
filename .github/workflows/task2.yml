@@ -71,7 +71,7 @@ jobs:
         working-directory: ./infra
         if: github.event_name == 'pull_request'
         run: terraform plan -var="prefix=$PREFIX" -var="image=$IMAGE" -no-color
-        continue-on-error: true
+        
         
           
         #if: github.ref == 'refs/heads/main' && github.event_name == 'push'
