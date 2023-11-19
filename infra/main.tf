@@ -1,13 +1,13 @@
-variable "custom_prefix"{
-  default = "${var.prefix}"
+variable "prefix"{
+  type = string
 }
 
 resource "aws_apprunner_service" "service" {
-  service_name = "$.var.custom_prefix" # er dette hardkodet? sidet det er name?
+  service_name = "${var.prefix}-service" # er dette hardkodet? sidet det er name?
 
   instance_configuration { # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apprunner-service.html
-    Cpu: "256"
-    Memory: "1024"
+    cpu: "256"
+    memory: "1024"
     instance_role_arn = aws_iam_role.role_for_apprunner_service.arn
   }
 
@@ -27,7 +27,7 @@ resource "aws_apprunner_service" "service" {
 }
 
 resource "aws_iam_role" "role_for_apprunner_service" {
-  name               = "$.var.custom_prefix" # er dette hardkodet? sidet det er name?
+  name               = "${var.prefix}-role" # er dette hardkodet? sidet det er name?
   assume_role_policy = data.aws_iam_policy_document.assume_role.json
 }
 
@@ -66,7 +66,7 @@ data "aws_iam_policy_document" "policy" {
 }
 
 resource "aws_iam_policy" "policy" {
-  name        = "$.var.custom_prefix"  # er dette hardkodet? sidet det er name?
+  name        = "${var.prefix}-policy"   # er dette hardkodet? sidet det er name?
   description = "Policy for apprunner instance I think"
   policy      = data.aws_iam_policy_document.policy.json
 }
