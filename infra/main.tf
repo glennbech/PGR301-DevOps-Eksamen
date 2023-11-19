@@ -6,8 +6,8 @@ resource "aws_apprunner_service" "service" {
   service_name = "$.var.custom_prefix" # er dette hardkodet? sidet det er name?
 
   instance_configuration { # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apprunner-service.html
-    "Cpu": "256"
-    "Memory": "1024"
+    Cpu: "256"
+    Memory: "1024"
     instance_role_arn = aws_iam_role.role_for_apprunner_service.arn
   }
 
