@@ -67,6 +67,12 @@ jobs:
         run: exit 1
 
       - name: Terraform Apply
+        id: plan
         working-directory: ./infra
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: terraform apply -var="prefix=kandidatnr-2007" -var="image=244530008913.dkr.ecr.eu-west-1.amazonaws.com/kandidatnr-2007:latest" -auto-approve
+        if: github.event_name == 'pull_request'
+        run: terraform plan -var="prefix=$PREFIX" -var="image=$IMAGE" -no-color
+        continue-on-error: true
+        
+          
+        #if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        #run: terraform apply -var="prefix=kandidatnr-2007" -var="image=244530008913.dkr.ecr.eu-west-1.amazonaws.com/kandidatnr-2007:latest" -auto-approve
