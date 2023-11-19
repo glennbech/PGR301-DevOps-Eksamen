@@ -36,7 +36,7 @@ jobs:
   # her skal oppgave 3b komme, utvid din Github Actions workflow sp, øaget et Docker image 
   terraform:
     name: "Terraform"
-    needs: build_docker_image
+    needs: build_docker
     runs-on: ubuntu-latest
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
