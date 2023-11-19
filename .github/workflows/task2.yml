@@ -67,7 +67,7 @@ jobs:
         run: exit 1
 
       - name: Terraform Apply
-        id: plan
+        #id: plan
         working-directory: ./infra
         if: github.event_name == 'pull_request'
         run: terraform plan -var="prefix=$PREFIX" -var="image=$IMAGE" -no-color
