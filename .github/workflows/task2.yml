@@ -70,7 +70,7 @@ jobs:
         #id: plan
         working-directory: ./infra
         if: github.event_name == 'pull_request'
-        run: terraform plan -var="prefix=$PREFIX" -var="image=$IMAGE" -no-color
+        run: terraform plan -var="prefix=$PREFIX" -var="image=$IMAGE" -no-color -var="alarm_email=$EMAIL" -auto--approve
         
         
           
