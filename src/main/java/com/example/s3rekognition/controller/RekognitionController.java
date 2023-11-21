@@ -33,7 +33,10 @@ public class RekognitionController implements ApplicationListener<ApplicationRea
     private final AmazonRekognition rekognitionClient;
     private final MeterRegistry meterRegistry;
 
-    private Map<String, FacesClassificationResponse> faces = new HashMap<>();
+    private int numberOfMaskViolation = 0;
+    private int numberOfMaskPassed = 0;
+
+    private Map<String, Integer> faces = new HashMap<>();
 
     private static final Logger logger = Logger.getLogger(RekognitionController.class.getName());
     @Autowired
@@ -54,7 +57,7 @@ public class RekognitionController implements ApplicationListener<ApplicationRea
     @GetMapping(value = "/scan-ppe", consumes = "*/*", produces = "application/json")
     @ResponseBody
     public ResponseEntity<PPEResponse> scanForPPE(@RequestParam String bucketName) {
-        meterRegistry.counter("count").increment();
+
         // List all objects in the S3 bucket
         ListObjectsV2Result imageList = s3Client.listObjectsV2(bucketName);
 
@@ -86,12 +89,20 @@ public class RekognitionController implements ApplicationListener<ApplicationRea
 
             boolean violation = !result.getSummary().getPersonsWithoutRequiredEquipment().isEmpty();
 
+            if (violation){
+                numberOfMaskViolation++;
+            }else{
+                numberOfMaskPassed++;
+            }
+
             logger.info("scanning " + image.getKey() + ", violation result " + violation);
             // Categorize the current image as a violation or not.
             int personCount = result.getPersons().size(); // viser aller personer, metrics for telle personer. ?
             PPEClassificationResponse classification = new PPEClassificationResponse(image.getKey(), personCount, violation);
             classificationResponses.add(classification);
         }
+        meterRegistry.counter("Mask_Violation").increment(numberOfMaskViolation);
+        meterRegistry.counter("Mask_Passed").increment(numberOfMaskPassed);
         PPEResponse ppeResponse = new PPEResponse(bucketName, classificationResponses);
         return ResponseEntity.ok(ppeResponse);
 
@@ -100,7 +111,7 @@ public class RekognitionController implements ApplicationListener<ApplicationRea
     @GetMapping(value = "/scan-face", consumes = "*/*", produces = "application/json")
     @ResponseBody
     public ResponseEntity<FacesResponse> scanForFaces(@RequestParam String bucketName) {
-        meterRegistry.counter("count").increment();
+
         // List all objects in the S3 bucket
         ListObjectsV2Result imageList = s3Client.listObjectsV2(bucketName);
 
@@ -127,7 +138,7 @@ public class RekognitionController implements ApplicationListener<ApplicationRea
             FacesClassificationResponse facesClassification = new FacesClassificationResponse(image.getKey(), personCount);
             facesClassificationResponses.add(facesClassification);
         }
-
+        meterRegistry.counter("count").increment();
         FacesResponse facesResponse = new FacesResponse(bucketName, facesClassificationResponses);
         return ResponseEntity.ok(facesResponse);
     }
@@ -159,9 +170,6 @@ public class RekognitionController implements ApplicationListener<ApplicationRea
                 .register(meterRegistry);
 
     }
- 
-
-
 }
 
 /*
