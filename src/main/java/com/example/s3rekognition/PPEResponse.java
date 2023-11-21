@@ -8,7 +8,7 @@ import java.util.List;
  *
  */
 public class PPEResponse implements Serializable {
-
+    
     String bucketName;
     List<PPEClassificationResponse> results;
 

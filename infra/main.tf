@@ -1,7 +1,3 @@
-variable "prefix"{
-  type = string
-}
-
 resource "aws_apprunner_service" "service" {
   service_name = "${var.prefix}-service" # er dette hardkodet? sidet det er name?
 

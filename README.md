@@ -58,9 +58,11 @@ Etter at du har fått forket er det viktig å lage Github Secrets i repositiriet
 # Besvarelse oppgave 3
     Oppgave A kodeendringer og forbedringer gjort.
     Oppgave B Terraform kjører grønt. 
+        - [ ] husk å skrive hva sensor må gjøre
 
 # Besvarelse oppgave 4
-    
+    Oppgave A -
+    Oppgave B - 
     
 
 # Besvarelse oppgave 5

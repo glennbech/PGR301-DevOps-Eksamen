@@ -24,12 +24,14 @@ public class RekognitionController implements ApplicationListener<ApplicationRea
 
     private final AmazonS3 s3Client;
     private final AmazonRekognition rekognitionClient;
+    
 
     private static final Logger logger = Logger.getLogger(RekognitionController.class.getName());
 
-    public RekognitionController() {
+    public RekognitionController(MeterRegistry meterRegistry) {
         this.s3Client = AmazonS3ClientBuilder.standard().build();
         this.rekognitionClient = AmazonRekognitionClientBuilder.standard().build();
+        this.meterRegistry = meterRegistry;
     }
 
     /**
@@ -98,8 +100,22 @@ public class RekognitionController implements ApplicationListener<ApplicationRea
     }
 
 
+    /* Her under kan jeg legge til måleinstrumenter */
+    // Gauge
     @Override
     public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
-
+        Gauge.builder("account_count", theBank, Bank::getAccountCount)
+                .tag("type", "checking") // add tags as needed
+                .regisster(meterRegistry);
+        Meter.builder("request_count", theBank)
+                .tag("endpoint", "/api/some-endpoint")
+                .regisster(meterRegistry);
+        DistributionsSummary.builder("response_size",
+                .tag("endpoint", "/api/some-endpoint")
+                .regisster(meterRegistry);
+        
+        meterTegistry.summary("response_size".record(1024))
     }
+ 
+    
 }
