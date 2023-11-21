@@ -38,7 +38,9 @@
 
 Først må du/sensor Forke repositoryen.
 
-Hvis du går inn på din terminal og skriver inn: git clone https://github.com/<DIN-GITHUB-BRUKER>/PGR301-DevOps-Eksamen.git
+Hvis du går inn på din terminal og skriver inn: 
+
+git clone https://github.com/<DIN-GITHUB-BRUKER>/PGR301-DevOps-Eksamen.git
 
 Etter at du har fått forket er det viktig å lage Github Secrets i repositiriet.
 
@@ -58,11 +60,17 @@ Etter at du har fått forket er det viktig å lage Github Secrets i repositiriet
 # Besvarelse oppgave 3
     Oppgave A kodeendringer og forbedringer gjort.
     Oppgave B Terraform kjører grønt. 
-        - [ ] husk å skrive hva sensor må gjøre
+- [x] Beskriv også hvilke endringer, om noen, sensor må gjøre i sin fork, GitHub Actions workflow eller kode for å få denne til å kjøre i sin fork
+
+
+    1. Husk å sjekke at du har lagt til Github Secrets.
+    2. husk å bruke kandidatnummer eller service navn.
+    3. hvis du skal pushe noe er det viktig at du kjører den til main, ellers bygges det bare.
+    4. gå til infra mappen på provider.tf og endre Key
 
 # Besvarelse oppgave 4
-    Oppgave A -
-    Oppgave B - 
+    Oppgave A - Husk begrunnelse for hvorfor jeg har valgt måleinstrumentene. Valg på være relevante.
+    Oppgave B - Lag en CloudWatch-alarm som sender et varsel på Epost dersom den utløses.Dere velger selv kriteriet for kriterier til at alarmen skal løses ut, men dere må skrive en kort redgjørelse for valget.
     
 
 # Besvarelse oppgave 5

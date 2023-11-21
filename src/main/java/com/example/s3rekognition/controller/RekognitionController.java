@@ -54,7 +54,7 @@ public class RekognitionController implements ApplicationListener<ApplicationRea
     @GetMapping(value = "/scan-ppe", consumes = "*/*", produces = "application/json")
     @ResponseBody
     public ResponseEntity<PPEResponse> scanForPPE(@RequestParam String bucketName) {
-
+        meterRegistry.counter("count").increment();
         // List all objects in the S3 bucket
         ListObjectsV2Result imageList = s3Client.listObjectsV2(bucketName);
 
@@ -86,10 +86,6 @@ public class RekognitionController implements ApplicationListener<ApplicationRea
 
             boolean violation = !result.getSummary().getPersonsWithoutRequiredEquipment().isEmpty();
 
-            if (!violation){
-                meterRegistry.counter("count").increment();
-            }
-
             logger.info("scanning " + image.getKey() + ", violation result " + violation);
             // Categorize the current image as a violation or not.
             int personCount = result.getPersons().size(); // viser aller personer, metrics for telle personer. ?
@@ -104,6 +100,7 @@ public class RekognitionController implements ApplicationListener<ApplicationRea
     @GetMapping(value = "/scan-face", consumes = "*/*", produces = "application/json")
     @ResponseBody
     public ResponseEntity<FacesResponse> scanForFaces(@RequestParam String bucketName) {
+        meterRegistry.counter("count").increment();
         // List all objects in the S3 bucket
         ListObjectsV2Result imageList = s3Client.listObjectsV2(bucketName);
 
