@@ -11,7 +11,9 @@ import com.example.s3rekognition.FacesClassificationResponse;
 import com.example.s3rekognition.FacesResponse;
 import com.example.s3rekognition.PPEClassificationResponse;
 import com.example.s3rekognition.PPEResponse;
+import io.micrometer.core.annotation.Timed;
 import io.micrometer.core.instrument.*;
+import io.micrometer.core.instrument.util.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
@@ -35,14 +37,17 @@ public class RekognitionController implements ApplicationListener<ApplicationRea
 
     private int numberOfMaskViolation = 0;
     private int numberOfMaskPassed = 0;
+    private int numberOfHandsViolation = 0;
+    private int numberOfHandsImage = 0;
 
     private Map<String, Integer> faces = new HashMap<>();
+    private Map<String, Integer> hands = new HashMap<>();
 
     private static final Logger logger = Logger.getLogger(RekognitionController.class.getName());
     @Autowired
     public RekognitionController(MeterRegistry meterRegistry) {
-        this.s3Client = AmazonS3ClientBuilder.standard().build();
-        this.rekognitionClient = AmazonRekognitionClientBuilder.standard().build();
+        this.s3Client = AmazonS3ClientBuilder.standard().withRegion("eu-west-1").build();
+        this.rekognitionClient = AmazonRekognitionClientBuilder.standard().withRegion("eu-west-1").build();
         this.meterRegistry = meterRegistry;
     }
 
@@ -54,10 +59,12 @@ public class RekognitionController implements ApplicationListener<ApplicationRea
      * @param bucketName
      * @return
      */
+    @Timed(value = "face_check_latency", description = "Latency of ppe")
     @GetMapping(value = "/scan-ppe", consumes = "*/*", produces = "application/json")
     @ResponseBody
     public ResponseEntity<PPEResponse> scanForPPE(@RequestParam String bucketName) {
-
+        numberOfMaskViolation = 0;
+        numberOfMaskPassed = 0;
         // List all objects in the S3 bucket
         ListObjectsV2Result imageList = s3Client.listObjectsV2(bucketName);
 
@@ -70,7 +77,6 @@ public class RekognitionController implements ApplicationListener<ApplicationRea
         // Iterate over each object and scan for PPE
         for (S3ObjectSummary image : images) {
             logger.info("scanning " + image.getKey());
-
 
 
             // This is where the magic happens, use AWS rekognition to detect PPE
@@ -91,27 +97,37 @@ public class RekognitionController implements ApplicationListener<ApplicationRea
 
             if (violation){
                 numberOfMaskViolation++;
+
             }else{
                 numberOfMaskPassed++;
             }
 
             logger.info("scanning " + image.getKey() + ", violation result " + violation);
             // Categorize the current image as a violation or not.
-            int personCount = result.getPersons().size(); // viser aller personer, metrics for telle personer. ?
+            int personCount = result.getPersons().size();
             PPEClassificationResponse classification = new PPEClassificationResponse(image.getKey(), personCount, violation);
             classificationResponses.add(classification);
         }
-        meterRegistry.counter("Mask_Violation").increment(numberOfMaskViolation);
-        meterRegistry.counter("Mask_Passed").increment(numberOfMaskPassed);
+
+        faces.put("maskViolation", numberOfMaskViolation);
+        faces.put("maskPassed", numberOfMaskPassed);
+        Gauge.builder("mask_violation", faces, map -> map.get("maskViolation")).register(meterRegistry);
+        Gauge.builder("mask_passed", faces, map -> map.get("maskPassed")).register(meterRegistry);
+        logger.info("nummer: " + numberOfMaskViolation);
         PPEResponse ppeResponse = new PPEResponse(bucketName, classificationResponses);
         return ResponseEntity.ok(ppeResponse);
 
+
+
     }
-    // sjekk hvor mange som er på bilde
-    @GetMapping(value = "/scan-face", consumes = "*/*", produces = "application/json")
+
+    // sjekk hvor mange som har på hjelm
+    @Timed(value = "check_helmet", description = "Scanning if person have helmet")
+    @GetMapping(value = "/scan-helmet", consumes = "*/*", produces = "application/json")
     @ResponseBody
     public ResponseEntity<FacesResponse> scanForFaces(@RequestParam String bucketName) {
 
+        boolean numberOfFaces = true;
         // List all objects in the S3 bucket
         ListObjectsV2Result imageList = s3Client.listObjectsV2(bucketName);
 
@@ -125,6 +141,7 @@ public class RekognitionController implements ApplicationListener<ApplicationRea
         for (S3ObjectSummary image : images) {
             logger.info("scanning " + image.getKey());
 
+
             SearchFacesByImageRequest searchFacesByImageRequest = new SearchFacesByImageRequest()
                     .withImage(new Image()
                             .withS3Object(new S3Object()
@@ -133,16 +150,91 @@ public class RekognitionController implements ApplicationListener<ApplicationRea
 
             SearchFacesByImageResult searchFacesByImageResult = rekognitionClient.searchFacesByImage(searchFacesByImageRequest);
 
+            DetectProtectiveEquipmentRequest request = new DetectProtectiveEquipmentRequest()
+                    .withImage(new Image()
+                            .withS3Object(new S3Object()
+                                    .withBucket(bucketName)
+                                    .withName(image.getKey())))
+                    .withSummarizationAttributes(new ProtectiveEquipmentSummarizationAttributes()
+                            .withMinConfidence(80f)
+                            .withRequiredEquipmentTypes("FACE_COVER", "HELMET"));
 
-            int personCount = searchFacesByImageResult.getFaceMatches().size(); // viser aller personer, metrics for telle personer. ?
+            DetectProtectiveEquipmentResult result = rekognitionClient.detectProtectiveEquipment(request);
+
+            //int faceCount = 2;
+            int faceCount = searchFacesByImageResult.getFaceMatches().size();
+            int personCount = result.getPersons().size();
+
+            if (faceCount != personCount){
+                numberOfFaces = false;
+            }
             FacesClassificationResponse facesClassification = new FacesClassificationResponse(image.getKey(), personCount);
             facesClassificationResponses.add(facesClassification);
         }
-        meterRegistry.counter("count").increment();
+
+            if (numberOfFaces){
+                meterRegistry.counter("invalid_number_found").increment();
+            }
+
         FacesResponse facesResponse = new FacesResponse(bucketName, facesClassificationResponses);
         return ResponseEntity.ok(facesResponse);
     }
 
+    @Timed(value = "check_hands", description = "Scanning for hands")
+    @GetMapping(value = "/scan-hands", consumes = "*/*", produces = "application/json")
+    @ResponseBody
+    public ResponseEntity<FacesResponse> scanForHands(@RequestParam String bucketName) {
+
+        boolean numberOfHands = true;
+        // List all objects in the S3 bucket
+        ListObjectsV2Result imageList = s3Client.listObjectsV2(bucketName);
+
+        // This will hold all of our classifications
+        List<FacesClassificationResponse> facesClassificationResponses = new ArrayList<>();
+
+        // This is all the images in the bucket
+        List<S3ObjectSummary> images = imageList.getObjectSummaries();
+
+        // Iterate over each object and scan for PPE
+        for (S3ObjectSummary image : images) {
+            logger.info("scanning " + image.getKey());
+
+
+            DetectModerationLabelsRequest moderationLabelsRequest = new DetectModerationLabelsRequest()
+                    .withImage(new Image()
+                            .withS3Object(new S3Object()
+                                    .withBucket(bucketName)
+                                    .withName(image.getKey())));
+
+            DetectModerationLabelsResult moderationLabelsResult = rekognitionClient.detectModerationLabels(moderationLabelsRequest);
+
+            // Check if the "HAND" label is present in the moderation labels
+            List<ModerationLabel> moderationLabels = moderationLabelsResult.getModerationLabels();
+            boolean handDetected = moderationLabels.stream()
+                    .anyMatch(label -> "HAND".equals(label.getName()));
+
+            if (!handDetected) {
+                numberOfHands = false;
+            }
+
+            FacesClassificationResponse facesClassification = new FacesClassificationResponse(image.getKey(), moderationLabels.size());
+            facesClassificationResponses.add(facesClassification);
+        }
+
+        if (numberOfHands) {
+            numberOfHandsViolation++;
+            meterRegistry.counter("hands_count_gauge").increment();
+            logger.info("Hands violation detected. Count: " + numberOfHandsViolation);
+        }else {
+            numberOfHandsImage++;
+            logger.info("Hands detected. Count: " + numberOfHandsImage);
+        }
+        hands.put("handsCount", numberOfHandsImage);
+        hands.put("handsViolation", numberOfHandsViolation);
+        Gauge.builder("hands_count", hands, map -> map.get("handsCount")).register(meterRegistry);
+        FacesResponse facesResponse = new FacesResponse(bucketName, facesClassificationResponses);
+        return ResponseEntity.ok(facesResponse);
+    }
             /**
              * Detects if the image has a protective gear violation for the FACE bodypart-
              * It does so by iterating over all persons in a picture, and then again over
@@ -153,7 +245,7 @@ public class RekognitionController implements ApplicationListener<ApplicationRea
              * @return
              */
 
-    // kan kanskje bruke den for alle 3 endpoints?
+
     private static boolean isViolation(DetectProtectiveEquipmentResult result) {
         return result.getPersons().stream()
                 .flatMap(p -> p.getBodyParts().stream())
@@ -162,19 +254,16 @@ public class RekognitionController implements ApplicationListener<ApplicationRea
     }
 
 
-    /* Her under kan jeg legge til måleinstrumenter */
-    // Gauge
     @Override
     public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
-        Gauge.builder("count",  faces, Map::size) // skrev først f -> f.size() intellij endret.
-                .register(meterRegistry);
 
+//        if (!faces.isEmpty()){
+//
+//            Gauge.builder("hands_count_gauge", hands, map -> map.get("handsCount")).register(meterRegistry);
+//            Gauge.builder("mask_violation_gauge", faces, map -> map.get("maskViolation")).register(meterRegistry);
+//            Gauge.builder("mask_passed_gauge", faces, map -> map.get("maskPassed")).register(meterRegistry);
+//
+//
+//        }
     }
 }
-
-/*
-*  1-3 metrics
-*
-* counter --> få på plass
-* gauge -- > tror den er ok
-* */

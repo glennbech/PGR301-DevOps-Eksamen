@@ -70,6 +70,10 @@ Etter at du har fått forket er det viktig å lage Github Secrets i repositiriet
 
 # Besvarelse oppgave 4
     Oppgave A - Husk begrunnelse for hvorfor jeg har valgt måleinstrumentene. Valg på være relevante.
+            1. metric 1 Counter
+            2. metric 2 Gauge
+            3. metric 3 Timer
+
     Oppgave B - Lag en CloudWatch-alarm som sender et varsel på Epost dersom den utløses.Dere velger selv kriteriet for kriterier til at alarmen skal løses ut, men dere må skrive en kort redgjørelse for valget.
     
 
