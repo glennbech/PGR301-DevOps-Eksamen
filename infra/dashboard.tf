@@ -66,7 +66,7 @@ resource "aws_cloudwatch_dashboard" "main" {
       "height": 6,
       "properties": {
         "metrics": [
-          ["${var.prefix}", "hands_count.count"]
+          ["${var.prefix}", "hands_count.value"]
         ],
         "period": 300,
         "stat": "Maximum",

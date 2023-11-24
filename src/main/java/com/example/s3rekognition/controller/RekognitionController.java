@@ -13,7 +13,6 @@ import com.example.s3rekognition.PPEClassificationResponse;
 import com.example.s3rekognition.PPEResponse;
 import io.micrometer.core.annotation.Timed;
 import io.micrometer.core.instrument.*;
-import io.micrometer.core.instrument.util.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
@@ -24,7 +23,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Supplier;
 import java.util.logging.Logger;
 
 
@@ -34,11 +32,11 @@ public class RekognitionController implements ApplicationListener<ApplicationRea
     private final AmazonS3 s3Client;
     private final AmazonRekognition rekognitionClient;
     private final MeterRegistry meterRegistry;
-
+    private int numberOfHands = 0;
     private int numberOfMaskViolation = 0;
     private int numberOfMaskPassed = 0;
-    private int numberOfHandsViolation = 0;
-    private int numberOfHandsImage = 0;
+    private int numberOfHandsNotInImage = 0;
+    private int numberOfHandsInImage = 0;
 
     private Map<String, Integer> faces = new HashMap<>();
     private Map<String, Integer> hands = new HashMap<>();
@@ -93,7 +91,7 @@ public class RekognitionController implements ApplicationListener<ApplicationRea
 
             // If any person on an image lacks PPE on the face, it's a violation of regulations
 
-            boolean violation = !result.getSummary().getPersonsWithoutRequiredEquipment().isEmpty();
+            boolean violation = isViolation(result);
 
             if (violation){
                 numberOfMaskViolation++;
@@ -113,7 +111,7 @@ public class RekognitionController implements ApplicationListener<ApplicationRea
         faces.put("maskPassed", numberOfMaskPassed);
         Gauge.builder("mask_violation", faces, map -> map.get("maskViolation")).register(meterRegistry);
         Gauge.builder("mask_passed", faces, map -> map.get("maskPassed")).register(meterRegistry);
-        logger.info("nummer: " + numberOfMaskViolation);
+        //logger.info("nummer: " + numberOfMaskViolation);
         PPEResponse ppeResponse = new PPEResponse(bucketName, classificationResponses);
         return ResponseEntity.ok(ppeResponse);
 
@@ -184,8 +182,9 @@ public class RekognitionController implements ApplicationListener<ApplicationRea
     @GetMapping(value = "/scan-hands", consumes = "*/*", produces = "application/json")
     @ResponseBody
     public ResponseEntity<FacesResponse> scanForHands(@RequestParam String bucketName) {
-
-        boolean numberOfHands = true;
+        numberOfHands = 0;
+        numberOfHandsNotInImage = 0;
+        numberOfHandsInImage = 0;
         // List all objects in the S3 bucket
         ListObjectsV2Result imageList = s3Client.listObjectsV2(bucketName);
 
@@ -200,41 +199,27 @@ public class RekognitionController implements ApplicationListener<ApplicationRea
             logger.info("scanning " + image.getKey());
 
 
-            DetectModerationLabelsRequest moderationLabelsRequest = new DetectModerationLabelsRequest()
+            DetectProtectiveEquipmentRequest request = new DetectProtectiveEquipmentRequest()
                     .withImage(new Image()
                             .withS3Object(new S3Object()
                                     .withBucket(bucketName)
-                                    .withName(image.getKey())));
+                                    .withName(image.getKey())))
+                    .withSummarizationAttributes(new ProtectiveEquipmentSummarizationAttributes()
+                            .withMinConfidence(80f)
+                            .withRequiredEquipmentTypes("HAND_COVER"));
 
-            DetectModerationLabelsResult moderationLabelsResult = rekognitionClient.detectModerationLabels(moderationLabelsRequest);
+            DetectProtectiveEquipmentResult result = rekognitionClient.detectProtectiveEquipment(request);
 
-            // Check if the "HAND" label is present in the moderation labels
-            List<ModerationLabel> moderationLabels = moderationLabelsResult.getModerationLabels();
-            boolean handDetected = moderationLabels.stream()
-                    .anyMatch(label -> "HAND".equals(label.getName()));
-
-            if (!handDetected) {
-                numberOfHands = false;
-            }
-
-            FacesClassificationResponse facesClassification = new FacesClassificationResponse(image.getKey(), moderationLabels.size());
-            facesClassificationResponses.add(facesClassification);
+            numberOfHands += countHandWithPPE(result);
+        }
+            hands.put("handsCount", numberOfHandsInImage);
+            Gauge.builder("hands_count", () -> numberOfHands).register(meterRegistry);
+            FacesResponse facesResponse = new FacesResponse(bucketName, facesClassificationResponses);
+            return ResponseEntity.ok(facesResponse);
         }
 
-        if (numberOfHands) {
-            numberOfHandsViolation++;
-            meterRegistry.counter("hands_count_gauge").increment();
-            logger.info("Hands violation detected. Count: " + numberOfHandsViolation);
-        }else {
-            numberOfHandsImage++;
-            logger.info("Hands detected. Count: " + numberOfHandsImage);
-        }
-        hands.put("handsCount", numberOfHandsImage);
-        hands.put("handsViolation", numberOfHandsViolation);
-        Gauge.builder("hands_count", hands, map -> map.get("handsCount")).register(meterRegistry);
-        FacesResponse facesResponse = new FacesResponse(bucketName, facesClassificationResponses);
-        return ResponseEntity.ok(facesResponse);
-    }
+
+
             /**
              * Detects if the image has a protective gear violation for the FACE bodypart-
              * It does so by iterating over all persons in a picture, and then again over
@@ -253,12 +238,41 @@ public class RekognitionController implements ApplicationListener<ApplicationRea
                         && bodyPart.getEquipmentDetections().isEmpty());
     }
 
+    /**
+     *
+     * result.getPersons() er tom ? hvordan kan jeg få den til å hente ned bucket
+     *
+     * */
+
+    private static int countHandWithPPE(DetectProtectiveEquipmentResult result) {
+        int handsCount = 0;
+
+        for (ProtectiveEquipmentPerson person : result.getPersons()) {
+            for (ProtectiveEquipmentBodyPart bodyPart : person.getBodyParts()) {
+                if ((bodyPart.getName().equals("RIGHT_HAND") || bodyPart.getName().equals("LEFT_HAND"))  && !bodyPart.getEquipmentDetections().isEmpty()) {
+                     handsCount++;  // Violation found
+                }
+            }
+        }
+        return handsCount;  // No violation found
+
+
+
+//        for (ProtectiveEquipmentPerson protectiveEquipmentPerson : result.getPersons()) {
+//            for (ProtectiveEquipmentBodyPart bodyPart : protectiveEquipmentPerson.getBodyParts()) {
+//                if ((bodyPart.getEquipmentDetections().contains("LEFT_HAND") || bodyPart.getEquipmentDetections().contains("RIGHT_HAND"))){
+//                    handsCount++;
+//                }
+//            }
+//        }
+//        logger.info("Jeg er her linje 267 " + " " + handsCount);
+//        return handsCount;
+    }
+
 
     @Override
     public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
-
 //        if (!faces.isEmpty()){
-//
 //            Gauge.builder("hands_count_gauge", hands, map -> map.get("handsCount")).register(meterRegistry);
 //            Gauge.builder("mask_violation_gauge", faces, map -> map.get("maskViolation")).register(meterRegistry);
 //            Gauge.builder("mask_passed_gauge", faces, map -> map.get("maskPassed")).register(meterRegistry);

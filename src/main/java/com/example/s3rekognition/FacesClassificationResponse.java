@@ -6,9 +6,11 @@ public class FacesClassificationResponse implements Serializable {
     private String fileName;
     private int personCount;
 
+
     public FacesClassificationResponse(String fileName, int personCount) {
         this.fileName = fileName;
         this.personCount = personCount;
+
 
     }
 
