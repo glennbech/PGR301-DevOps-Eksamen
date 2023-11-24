@@ -17,6 +17,9 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: eu-west-1
+          PREFIX: kandidatnr-2007
+          EMAIL: hau_vu94@hotmail.com
         run: |
             if [ "${{ github.event_name }}" != "push" ] || [ "${{ github.ref }}" != "refs/heads/main" ]; then
             echo "Skipping Docker image build and push for branch ${GITHUB_REF}"
@@ -59,7 +62,7 @@ jobs:
         id: plan
         working-directory: ./infra
         if: github.event_name == 'pull_request'
-        run: terraform plan -var="prefix=$PREFIX" -var="image=$IMAGE" -no-color
+        run: terraform plan -var="prefix=$PREFIX" -var="image=$IMAGE" -var="alarm_email=$EMAIL" -no-color
         continue-on-error: true
 
       - name: Terraform Plan Status
