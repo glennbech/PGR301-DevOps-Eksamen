@@ -20,8 +20,8 @@
 - [x] Oppgave B - Terraform i GitHub Actions
 
 ## Oppgave 4 - Feedback - 30 poeng
-- [ ] Oppgave A - Utvid applikasjonen og legg inn "Måleinstrumenter"
-- [ ] Oppgave B - CloudWatch Alarm og Terraform moduler
+- [x] Oppgave A - Utvid applikasjonen og legg inn "Måleinstrumenter"
+- [x] Oppgave B - CloudWatch Alarm og Terraform moduler
 
 ## Oppgave 5 - Drøfteoppgaver - 20 poeng
 - [x] Oppgave A - Kontinuelig Integrering
@@ -69,13 +69,14 @@ Etter at du har fått forket er det viktig å lage Github Secrets i repositiriet
     4. gå til infra mappen på provider.tf og endre Key
 
 # Besvarelse oppgave 4
-    Oppgave A - Husk begrunnelse for hvorfor jeg har valgt måleinstrumentene. Valg på være relevante.
-            1. metric 1 Counter
-            2. metric 2 Gauge
-            3. metric 3 Timer
+    Oppgave A - Velg  3 måleinstrumenter
+            1. metric 1 Counter, Jeg bruker counter på numberOfMaskViolation, numberOfMaskPassed og numberOfHnds, disse variablene brukes til å holde telling på forskjellige hendeler og oveføres deretter til Gauge-Metrikker for overvåking. 
+            2. metric 2 Gauge, bruker dette for å overvåke antall ganger maskeovertredelse blir registert og antall ganger masken passeres i bildene. 
+            3. metric 3 Timer, metrikken brukers for å registere tiden det tar for  gjennomføre ansiktssjekken for beskyttelsesutstyr i bildene. 
 
     Oppgave B - Lag en CloudWatch-alarm som sender et varsel på Epost dersom den utløses.Dere velger selv kriteriet for kriterier til at alarmen skal løses ut, men dere må skrive en kort redgjørelse for valget.
-    
+                1. Få alarmen utløst
+                2. Jeg har laget flere alarmer, men et eksempel på alarm er hvis det er mer enn 50 personer med maske på samme plass på under 5 minutter får jeg en mail. Helser ikke mange syke perosner med maske på samme sted. 
 
 # Besvarelse oppgave 5
 

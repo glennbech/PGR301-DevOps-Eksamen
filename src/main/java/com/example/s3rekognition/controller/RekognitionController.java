@@ -120,63 +120,40 @@ public class RekognitionController implements ApplicationListener<ApplicationRea
     }
 
     // sjekk hvor mange som har på hjelm
-    @Timed(value = "check_helmet", description = "Scanning if person have helmet")
-    @GetMapping(value = "/scan-helmet", consumes = "*/*", produces = "application/json")
-    @ResponseBody
-    public ResponseEntity<FacesResponse> scanForFaces(@RequestParam String bucketName) {
-
-        boolean numberOfFaces = true;
-        // List all objects in the S3 bucket
-        ListObjectsV2Result imageList = s3Client.listObjectsV2(bucketName);
-
-        // This will hold all of our classifications
-        List<FacesClassificationResponse> facesClassificationResponses = new ArrayList<>();
-
-        // This is all the images in the bucket
-        List<S3ObjectSummary> images = imageList.getObjectSummaries();
-
-        // Iterate over each object and scan for PPE
-        for (S3ObjectSummary image : images) {
-            logger.info("scanning " + image.getKey());
-
-
-            SearchFacesByImageRequest searchFacesByImageRequest = new SearchFacesByImageRequest()
-                    .withImage(new Image()
-                            .withS3Object(new S3Object()
-                                    .withBucket(bucketName)
-                                    .withName(image.getKey()))).withFaceMatchThreshold(80f);
-
-            SearchFacesByImageResult searchFacesByImageResult = rekognitionClient.searchFacesByImage(searchFacesByImageRequest);
-
-            DetectProtectiveEquipmentRequest request = new DetectProtectiveEquipmentRequest()
-                    .withImage(new Image()
-                            .withS3Object(new S3Object()
-                                    .withBucket(bucketName)
-                                    .withName(image.getKey())))
-                    .withSummarizationAttributes(new ProtectiveEquipmentSummarizationAttributes()
-                            .withMinConfidence(80f)
-                            .withRequiredEquipmentTypes("FACE_COVER", "HELMET"));
-
-            DetectProtectiveEquipmentResult result = rekognitionClient.detectProtectiveEquipment(request);
-
-            //int faceCount = 2;
-            int faceCount = searchFacesByImageResult.getFaceMatches().size();
-            int personCount = result.getPersons().size();
-
-            if (faceCount != personCount){
-                numberOfFaces = false;
-            }
-            FacesClassificationResponse facesClassification = new FacesClassificationResponse(image.getKey(), personCount);
-            facesClassificationResponses.add(facesClassification);
-        }
-
-            if (numberOfFaces){
-                meterRegistry.counter("invalid_number_found").increment();
-            }
-
-        FacesResponse facesResponse = new FacesResponse(bucketName, facesClassificationResponses);
-        return ResponseEntity.ok(facesResponse);
-    }
+//    @Timed(value = "check_helmet", description = "Scanning if person have helmet")
+//    @GetMapping(value = "/scan-helmet", consumes = "*/*", produces = "application/json")
+//    @ResponseBody
+//    public ResponseEntity<FacesResponse> scanForFaces(@RequestParam String bucketName) {
+//
+//        boolean numberOfFaces = true;
+//        // List all objects in the S3 bucket
+//        ListObjectsV2Result imageList = s3Client.listObjectsV2(bucketName);
+//
+//        // This will hold all of our classifications
+//        List<FacesClassificationResponse> facesClassificationResponses = new ArrayList<>();
+//
+//        // This is all the images in the bucket
+//        List<S3ObjectSummary> images = imageList.getObjectSummaries();
+//
+//        // Iterate over each object and scan for PPE
+//        for (S3ObjectSummary image : images) {
+//            logger.info("scanning " + image.getKey());
+//
+//
+//            DetectProtectiveEquipmentRequest request = new DetectProtectiveEquipmentRequest()
+//                    .withImage(new Image()
+//                            .withS3Object(new S3Object()
+//                                    .withBucket(bucketName)
+//                                    .withName(image.getKey())))
+//                    .withSummarizationAttributes(new ProtectiveEquipmentSummarizationAttributes()
+//                            .withMinConfidence(80f)
+//                            .withRequiredEquipmentTypes("FACE_COVER", "HELMET"));
+//
+//            DetectProtectiveEquipmentResult result = rekognitionClient.detectProtectiveEquipment(request);
+//
+//        }
+//        return null;
+//    }
 
     @Timed(value = "check_hands", description = "Scanning for hands")
     @GetMapping(value = "/scan-hands", consumes = "*/*", produces = "application/json")

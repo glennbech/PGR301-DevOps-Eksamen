@@ -73,27 +73,6 @@ resource "aws_cloudwatch_dashboard" "main" {
         "region": "eu-west-1",
         "title": "Number of hands"
       }
-    },
-    {
-      "type": "metric",
-      "x": 18,
-      "y": 60,
-      "width": 6,
-      "height": 6,
-      "properties": {
-        "metrics": [
-          ["${var.prefix}", "hands_count_gauge.value"]
-        ],
-        "view": "gauge",
-        "title": "Number of hands found",
-        "region": "eu-west-1",
-        "yAxis": {
-          "left": {
-            "min": 0,
-            "max": 100
-          }
-        }
-      }
     }
   ]
 }
