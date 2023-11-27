@@ -76,7 +76,7 @@ Etter at du har fått forket er det viktig å lage Github Secrets i repositiriet
 
     Oppgave B - Lag en CloudWatch-alarm som sender et varsel på Epost dersom den utløses.Dere velger selv kriteriet for kriterier til at alarmen skal løses ut, men dere må skrive en kort redgjørelse for valget.
                 1. Få alarmen utløst
-                2. Jeg har laget flere alarmer, men et eksempel på alarm er hvis det er mer enn 50 personer med maske på samme plass på under 5 minutter får jeg en mail. Helser ikke mange syke perosner med maske på samme sted. 
+                2. Jeg har laget flere alarmer, men et eksempel på alarm er hvis det er mer enn 50 personer med maske på samme plass på under 5 minutter får jeg en mail. Vi ønsker ikke mange syke personer med maske på samme sted, Da vi er redd det vil føre til mye sykdommer hvis enkelte ikke er flinke med hygiene.
 
 # Besvarelse oppgave 5
 
