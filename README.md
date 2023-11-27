@@ -64,7 +64,7 @@ Etter at du har fått forket er det viktig å lage Github Secrets i repositiriet
 
 
     1. Husk å sjekke at du har lagt til Github Secrets.
-    2. husk å bruke kandidatnummer eller service navn.
+    2. husk å bruke kandidatnummer eller service navn. Da må du endre prefix og email. 
     3. hvis du skal pushe noe er det viktig at du kjører den til main, ellers bygges det bare.
     4. gå til infra mappen på provider.tf og endre Key
 
