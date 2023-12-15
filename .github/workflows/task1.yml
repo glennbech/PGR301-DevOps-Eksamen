@@ -1,5 +1,4 @@
 name: SAM Deploy
-
 on:
   push:
       
