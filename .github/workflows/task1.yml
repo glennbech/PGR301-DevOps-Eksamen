@@ -22,5 +22,4 @@ jobs:
       - run: aws s3 ls
       - run: sam build --use-container
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-      - run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --stack-name sam-kandidat --s3-bucket pgr301-sam-bucket --capabilities CAPABILITY_IAM --region eu-west-1
-# Additional steps for testing API using Kjell's images...
+      - run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --stack-name sam-kandidat-gb --s3-bucket pgr301-sam-bucket --capabilities CAPABILITY_IAM --region eu-west-1
