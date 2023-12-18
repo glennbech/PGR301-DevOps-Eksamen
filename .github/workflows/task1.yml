@@ -1,7 +1,7 @@
 name: SAM Deploy
 on:
   push:
-      
+
 defaults:
   run:
     working-directory: ./kjell
@@ -21,4 +21,4 @@ jobs:
       - run: aws s3 ls
       - run: sam build --use-container
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-      - run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --stack-name sam-kandidat-gb --s3-bucket pgr301-sam-bucket --capabilities CAPABILITY_IAM --region eu-west-1
+      - run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --stack-name sam-kandidat-gbs --s3-bucket pgr301-sam-bucket --capabilities CAPABILITY_IAM --region eu-west-1

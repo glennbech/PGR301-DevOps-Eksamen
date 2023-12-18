@@ -15,8 +15,8 @@ Parameters:
   S3Bucketname: 
     Type: String
     Default: "kandidatnr-2007"
+
 Resources:
-  
   Bucket:
     Type: AWS::S3::Bucket
     Properties:
