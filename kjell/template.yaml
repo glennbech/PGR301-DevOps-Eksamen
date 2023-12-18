@@ -14,7 +14,7 @@ Globals:
 Parameters:
   S3Bucketname: 
     Type: String
-    Default: "kandidatnr-2007"
+    Default: "kandidatnr-2007s"
 
 Resources:
   Bucket:
